@@ -5,7 +5,7 @@
 #ifndef REMOTE_CONTROL_H
 #define REMOTE_CONTROL_H
 
-#define p_channel1 7
+#define p_channel1 7 
 #define p_channel2 8
 
 #define address 0x80
@@ -15,8 +15,8 @@ namespace remoteControl {
   int r2;
   
   void read() {
-   r1 = pulseIn(p_channel1, HIGH, 36000); 
-   r2 = pulseIn(p_channel2, HIGH, 36000); 
+   r1 = pulseIn(p_channel1, HIGH, 20000); 
+   r2 = pulseIn(p_channel2, HIGH, 20000); 
   }
 
   void calibration(){
@@ -36,34 +36,29 @@ namespace remoteControl {
     
     read();
     calibration();
+    Serial.print(*channel2);
+    Serial.print("   |   ");
+    Serial.println(*channel1);
 
-    if (*channel2 > (1500+y_sensibility+treshold)) {
-
-      int y_speed = map(*channel2, (1500+y_sensibility), 2000, 0, 120);
+    if (*channel2 > (1600)) {     
+      int y_speed = map(*channel2, (1600), 2000, 0, 126);
       motionControl::forward(front, rear, y_speed, address);
-
-    } else if (*channel2 < (1500-y_sensibility-treshold)){
-
-      int y_speed = map(*channel2, (1500-y_sensibility), 1000, 0, 126);
+    } else if (*channel2 < (1400)){
+      int y_speed = map(*channel2, (1400), 1000, 0, 126);
       motionControl::backward(front, rear, y_speed, address);
-
-    } else if (*channel2 > (1500-y_sensibility-treshold) && *channel2 < (1500+y_sensibility+treshold)){
-
+    } else if (*channel2 >= (1400) && *channel2 <= (1600)){
       motionControl::stop(front, rear, address);
     }
 
-    if (*channel1 > (1500+y_sensibility+treshold)) {
-
-      int x_speed = map(*channel1, (1500+x_sensibility), 2000, 0, 126);
+    if (*channel1 > (1650)) {
+      int x_speed = map(*channel1, (1650), 2000, 0, 126);
       motionControl::right(front, rear, x_speed, address);
 
-    } else if (*channel1 < (1500-y_sensibility-treshold)){
-
-      int x_speed = map(*channel1, (1500-x_sensibility), 1000, 0, 126);
+    } else if (*channel1 < (1350)){
+      int x_speed = map(*channel1, (1350), 1000, 0, 126);
       motionControl::left(front, rear, x_speed, address);
 
-    } else if (*channel2 > (1500-y_sensibility-treshold) && *channel2 < (1500+y_sensibility+treshold)){
-
+    } else if (*channel2 >= (1350) && *channel2 <= (1650)){
       motionControl::stop(front, rear, address);
     }
   }

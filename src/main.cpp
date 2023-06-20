@@ -3,34 +3,26 @@
 #include "Gpio.h"
 #include <RoboClaw.h>
 #include <motion_control.h>
-#include <state.h>
 #include <remote_control.h>
 
+#define address 0x80
 
-void run(const String &message);
-void move(float vx, float vy);
-void look(float angle);
-void stop();
+#define p_channel1 7
+#define p_channel2 8
+#define p_channel3 9
+#define p_channel4 10
+#define p_channel5 11
+#define p_channel6 12
+
 float convertTemperature(float rawTemperature);
-
-using namespace N;
+void run(const String &message);
 
 SerialPort port(115200, run);
 Gpio led(LED_BUILTIN);
 RoboClaw roboclaw1(&Serial3, 10000);
 RoboClaw roboclaw2(&Serial4, 10000);
 
-#define address 0x80
 
-namespace reciverPins{
-  #define p_channel1 7
-  #define p_channel2 8
-  #define p_channel3 9
-  #define p_channel4 10
-  #define p_channel5 11
-  #define p_channel6 12
-}
-  
 
 void setup() {
 
@@ -48,21 +40,17 @@ void setup() {
 
 }
 
-int chan1;
-int chan2;
-
 void loop() {
-  switch (state(p_channel5)){
-  case 0:
+  int channel5 = pulseIn(p_channel5, HIGH, 36000);
+
+  if (channel5 > 1800){
     remoteControl::execution(roboclaw1, roboclaw2);
-    break;
-  case 1:
+  } else if (channel5 >= 1000 && channel5 <= 1800) {
     port.update();
-    break;
-  case 2:
-    Serial.println(state(p_channel5));
-    break;
+  } else if (channel5 < 1000){
+    Serial.println("unused mode");
   }
+  
 }
 
 void run(const String &message) {
@@ -106,6 +94,25 @@ void run(const String &message) {
   } else if (action == "s") {
     motionControl::stop(roboclaw1, roboclaw2, address);
     port.send("Motors Stopped!");
+
+  } else if (action == "v4") {
+    float v1 = argument(message, 1);
+    float v2 = argument(message, 2);
+    float v3 = argument(message, 3);
+    float v4 = argument(message, 4);
+    motionControl::individualControl(roboclaw1, roboclaw2, v1, v2, v3, v4, address);
+    port.send("v1: " + String(v1));
+    port.send("v2: " + String(v2));
+    port.send("v3: " + String(v3));
+    port.send("v4: " + String(v4));
+
+  } else if (action == "dc") {
+    float vl = argument(message, 1);
+    float vr = argument(message, 2);
+    motionControl::differentialControl(roboclaw1, roboclaw2, vl, vr, address);
+    port.send("vl: " + String(vl));
+    port.send("vr: " + String(vr));
+
     /*__________________________SET COMMANDS_______________________________*/
 
   } else if (action == "se1") {
@@ -191,68 +198,6 @@ void run(const String &message) {
       port.send(token(message, i));
     }
   }
-}
-
-
-/*__________________________FUNCTIONS_________________________________*/
-
-
-void move(float vx, float vy) {
-  Serial.print("Roboclaw set velocity: ");
-  Serial.print(vx);
-  Serial.print(" ");
-  Serial.println(vy);
-}
-
-void look(float angle) {
-}
-
-void forward(String Motor, int speed) {
-  if (Motor == "m1") {
-    roboclaw1.ForwardM1(address, speed);
-    port.send("Motor " + Motor + " at speed of: " + speed);
-  } else if (Motor == "m2") {
-    roboclaw1.ForwardM2(address, speed);
-    port.send("Motor " + Motor + " at speed of: " + speed);
-  } else if (Motor == "ms") {
-    roboclaw1.ForwardM1(address, speed);
-    roboclaw1.ForwardM2(address, speed);
-    port.send("Motor " + Motor + " at speed of: " + speed);
-  }
-}
-
-void backward(String Motor, int speed) {
-  if (Motor == "m1") {
-    roboclaw1.BackwardM1(address, speed);
-    port.send("Motor " + Motor + " at speed of: " + speed);
-  } else if (Motor == "m2") {
-    roboclaw1.BackwardM2(address, speed);
-    port.send("Motor " + Motor + " at speed of: " + speed);
-  } else if (Motor == "ms") {
-    roboclaw1.BackwardM1(address, speed);
-    roboclaw1.BackwardM2(address, speed);
-    port.send("Motor " + Motor + " at speed of: " + speed);
-  }
-}
-
-
-void right(float speed) {
-  port.send("turning left");
-  roboclaw1.ForwardM1(address, speed);
-  roboclaw1.BackwardM2(address, speed);
-}
-
-void left(float speed) {
-  port.send("turning right");
-  roboclaw1.ForwardM2(address, speed);
-  roboclaw1.BackwardM1(address, speed);
-}
-
-void stop() {
-  roboclaw1.ForwardM1(address, 0);
-  roboclaw1.ForwardM2(address, 0);
-  roboclaw2.ForwardM1(address, 0);
-  roboclaw2.ForwardM2(address, 0);
 }
 
 float convertTemperature(float rawTemperature) {
