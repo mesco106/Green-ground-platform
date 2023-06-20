@@ -23,7 +23,6 @@ RoboClaw roboclaw1(&Serial3, 10000);
 RoboClaw roboclaw2(&Serial4, 10000);
 
 
-
 void setup() {
 
   pinMode(p_channel1, INPUT);
@@ -35,6 +34,7 @@ void setup() {
 
   roboclaw1.begin(38400);
   roboclaw2.begin(38400);
+
   port.setup();
   led.setup();
 
@@ -57,7 +57,6 @@ void run(const String &message) {
   
   auto action = command(message);
   
-
    if (action == "on") {
     led.on();
 
@@ -68,8 +67,6 @@ void run(const String &message) {
 
   } else if (action == "hi") {
     port.send("Hi there!");
-
-    /*__________________________MOTOR COMMANDS_________________________________*/
 
   } else if (action == "fo") {
     float speed = argument(message, 1);
