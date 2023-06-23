@@ -1,22 +1,24 @@
-#include <Arduino.h>
-#include <RoboClaw.h>
-#include <motion_control.h>
-
 #ifndef REMOTE_CONTROL_H
 #define REMOTE_CONTROL_H
 
-#define p_channel1 7 
-#define p_channel2 8
+#include <Arduino.h>
+#include <RoboClaw.h>
+#include <motion_control.h>
+#include <init.h>
 
 #define address 0x80
+
+RoboClaw roboclaw1(&Serial3, 10000);
+RoboClaw roboclaw2(&Serial4, 10000);
+
 
 namespace remoteControl {
   int r1;
   int r2;
   
   void read() {
-   r1 = pulseIn(p_channel1, HIGH, 20000); 
-   r2 = pulseIn(p_channel2, HIGH, 20000); 
+   r1 = pulseIn(reciever::p_channel1, HIGH, 20000); 
+   r2 = pulseIn(reciever::p_channel2, HIGH, 20000); 
   }
 
   void calibration(){

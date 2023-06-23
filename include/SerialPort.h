@@ -22,6 +22,7 @@ public:
   }
   void send(const String &message) {
     Serial.print(message + m_delimeter);
+    Serial.flush();
   }
 private:
   long m_baud;
