@@ -54,11 +54,11 @@ namespace remoteControl {
 
     if (*channel1 > (1650)) {
       int x_speed = map(*channel1, (1650), 2000, 0, 126);
-      motionControl::right(front, rear, x_speed, address);
+      motionControl::rear(front, rear, x_speed, address);
 
     } else if (*channel1 < (1350)){
       int x_speed = map(*channel1, (1350), 1000, 0, 126);
-      motionControl::left(front, rear, x_speed, address);
+      motionControl::front(front, rear, x_speed, address);
 
     } else if (*channel2 >= (1350) && *channel2 <= (1650)){
       motionControl::stop(front, rear, address);

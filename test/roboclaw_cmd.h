@@ -49,13 +49,13 @@ namespace roboclawCommands{
 
         } else if (action == "le") {
             float speed = argument(message, 1);
-            motionControl::left(*ptr_rc1, *ptr_rc2, speed, address);
-            port.send("Moving left at: " + String(speed));
+            motionControl::front(*ptr_rc1, *ptr_rc2, speed, address);
+            port.send("Moving front at: " + String(speed));
 
         } else if (action == "ri") {
             float speed = argument(message, 1);
-            motionControl::right(*ptr_rc1, *ptr_rc2, speed, address);
-            port.send("Moving right at: " + String(speed));
+            motionControl::rear(*ptr_rc1, *ptr_rc2, speed, address);
+            port.send("Moving rear at: " + String(speed));
         
         } else if (action == "s") {
             motionControl::stop(*ptr_rc1, *ptr_rc2, address);

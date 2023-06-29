@@ -9,6 +9,7 @@
             "name": "PlatformIO",
             "includePath": [
                 "/home/manescob/ShanwPlatform/Green-ground-platform/include",
+                "/home/manescob/ShanwPlatform/Green-ground-platform/include/arc_roboclaw",
                 "/home/manescob/ShanwPlatform/Green-ground-platform/src",
                 "/home/manescob/ShanwPlatform/Green-ground-platform/lib/roboclaw_arduino_library",
                 "/home/manescob/.platformio/packages/framework-arduinoteensy/libraries/SoftwareSerial",

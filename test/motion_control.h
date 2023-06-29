@@ -17,13 +17,13 @@ namespace motionControl{
         m2.BackwardM1(address, speed);
         m2.BackwardM2(address, speed);
     }
-    void right(RoboClaw m1, RoboClaw m2, int speed, char address) {
+    void rear(RoboClaw m1, RoboClaw m2, int speed, char address) {
         m1.ForwardM1(address, speed);
         m1.BackwardM2(address, speed);
         m2.ForwardM1(address, speed);
         m2.BackwardM2(address, speed);
     }
-    void left(RoboClaw m1, RoboClaw m2, int speed, char address) {
+    void front(RoboClaw m1, RoboClaw m2, int speed, char address) {
         m1.BackwardM1(address, speed);
         m1.ForwardM2(address, speed);
         m2.BackwardM1(address, speed);
