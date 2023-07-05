@@ -129,7 +129,7 @@ void loop() {
   // //Serial.println(read);
   // else {
   //   while (1){
-  //     port.update();
+  //     ;
   //     //Serial.println(read);
   //     if (*p_state == false)
   //      break;

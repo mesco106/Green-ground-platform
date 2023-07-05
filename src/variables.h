@@ -6,15 +6,15 @@
 namespace V {
     struct Roboclaw
     {
-
+        const int address = 0x80;
     };
 
     struct RemoteControl
     {   
         uint8_t channel1 = 22;
         uint8_t channel2 = 23;
-        uint16_t chan_1_read;
-        uint16_t chan_2_read;
+        float chan_1_read;
+        float chan_2_read;
     };
 
     struct Set

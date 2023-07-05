@@ -21,7 +21,6 @@ void linearActuator::ActuateSolarPanels(){
     V::LinearActuator linearActuator;
     int input = pulseIn(linearActuator.trigger, HIGH, 20000);
     
-    Serial.println(input);
     if (input > 1500){
         digitalWrite(linearActuator.in1, LOW);
         digitalWrite(linearActuator.in2, HIGH);

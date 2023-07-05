@@ -9,7 +9,6 @@
             "name": "PlatformIO",
             "includePath": [
                 "/home/manescob/ShanwPlatform/Green-ground-platform/include",
-                "/home/manescob/ShanwPlatform/Green-ground-platform/include/arc_roboclaw",
                 "/home/manescob/ShanwPlatform/Green-ground-platform/src",
                 "/home/manescob/ShanwPlatform/Green-ground-platform/lib/roboclaw_arduino_library",
                 "/home/manescob/.platformio/packages/framework-arduinoteensy/libraries/SoftwareSerial",
@@ -224,7 +223,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60107",
+                "PLATFORMIO=60108",
                 "__IMXRT1062__",
                 "ARDUINO_TEENSY41",
                 "USB_SERIAL",
@@ -235,7 +234,7 @@
                 "LAYOUT_US_ENGLISH",
                 ""
             ],
-            "cppStandard": "c++14",
+            "cppStandard": "gnu++14",
             "compilerPath": "/home/manescob/.platformio/packages/toolchain-gccarmnoneeabi-teensy/bin/arm-none-eabi-gcc",
             "compilerArgs": [
                 "-mthumb",

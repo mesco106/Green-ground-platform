@@ -14,17 +14,17 @@ void motionCommands::backward(RoboClaw m1, RoboClaw m2, int speed, char address)
     m2.BackwardM2(address, speed);
 }
 
-void motionCommands::left(RoboClaw m1, RoboClaw m2, int speed, char address){
+void motionCommands::right(RoboClaw m1, RoboClaw m2, int speed, char address){
     m1.ForwardM1(address, speed);
-    m1.BackwardM2(address, speed);
-    m2.ForwardM1(address, speed);
+    m1.ForwardM2(address, speed);
+    m2.BackwardM1(address, speed);
     m2.BackwardM2(address, speed);
 }
 
-void motionCommands::right(RoboClaw m1, RoboClaw m2, int speed, char address){
+void motionCommands::left(RoboClaw m1, RoboClaw m2, int speed, char address){
     m1.BackwardM1(address, speed);
-    m1.ForwardM2(address, speed);
-    m2.BackwardM1(address, speed);
+    m1.BackwardM2(address, speed);
+    m2.ForwardM1(address, speed);
     m2.ForwardM2(address, speed);
 }
 
@@ -49,25 +49,25 @@ void motionCommands::individualControl(RoboClaw m1, RoboClaw m2, int v1, int v2,
 void motionCommands::differentialControl(RoboClaw m1, RoboClaw m2, int vl, int vr, char address){
     if (vl > 0) {
         m1.ForwardM1(address, vl);
-        m2.ForwardM1(address, vl);
+        m1.ForwardM2(address, vl);
     } else if (vl < 0) {
         m1.BackwardM1(address, vl*(-1));
-        m2.BackwardM1(address, vl*(-1));
+        m1.BackwardM2(address, vl*(-1));
     
     } else if (vl == 0) { 
         m1.BackwardM1(address, 0);
-        m2.BackwardM1(address, 0);
+        m1.BackwardM2(address, 0);
     }
 
     if (vr > 0) {
-        m1.ForwardM2(address, vr);
+        m2.ForwardM1(address, vr);
         m2.ForwardM2(address, vr);
     } else if (vr < 0) {
-        m1.BackwardM2(address, vr*(-1));
+        m2.BackwardM1(address, vr*(-1));
         m2.BackwardM2(address, vr*(-1));
     
     } else if (vr == 0) { 
-        m1.ForwardM2(address, 0);
+        m2.ForwardM1(address, 0);
         m2.ForwardM2(address, 0);
     }
 }
