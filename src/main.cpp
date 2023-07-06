@@ -6,17 +6,15 @@
 #include "arc_roboclaw/roboclaw.h"
 #include "port.h"
 
-SerialPort port(115200, serial::run);
+
 
 void setup() {
     remoteControl::setup();
     linearActuator::setup();
     roboclaw::setup();
-    port.setup();
-    //serial::setup();
+    serial::setup();
 
     while(1){
-        port.update();
         //linearActuator::ActuateSolarPanels();
         //serial::update();
         //remoteControl::execution(roboclaw::roboclaw1, roboclaw::roboclaw2);

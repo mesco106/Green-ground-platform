@@ -37,7 +37,6 @@ namespace serial
     {
         V::Roboclaw roboclaw;
         auto action = command(message);
-        debug(action);
         if (action == "S")
         {   
             float v1 = argument(message, 1);
@@ -45,6 +44,16 @@ namespace serial
             debug(v1);
             debug(v2);
             differentialDrive::rosexecution(v1,v2,roboclaw::roboclaw1, roboclaw::roboclaw2);
+        }
+        else if (action == "P") //SOLAR PANELS SERVICE
+        {
+            if (argument(message, 1) == true) { led.on();}
+            else {led.off();}
+        }
+        else if (action == "G") //GPR RISER
+        {
+            if (argument(message, 1) == true) { led.on();}
+            else {led.off();}
         }
         else if (action == "on")
         {

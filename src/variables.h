@@ -3,6 +3,15 @@
 
 #include "Arduino.h"
 
+/*RESERVED PINS FOR SERIAL COMUNICATIOM
+    PIN 21 RX5
+    PIN 20 TX5
+    PIN 17 TX4
+    PIN 16 RX4
+    PIN 15 RX3
+    PIN 14 TX3
+*/
+
 namespace V {
     struct Roboclaw
     {
@@ -11,8 +20,8 @@ namespace V {
 
     struct RemoteControl
     {   
-        uint8_t channel1 = 22;
-        uint8_t channel2 = 23;
+        uint8_t channel1 = /*PIN*/22;
+        uint8_t channel2 = /*PIN*/23;
         float chan_1_read;
         float chan_2_read;
     };
@@ -26,10 +35,17 @@ namespace V {
 
     struct LinearActuator
     {
-        uint8_t enA = 37;
-        uint8_t in1 = 41;
-        uint8_t in2 = 40;
-        uint8_t trigger = 19;
+        uint8_t enA = /*PIN*/37;
+        uint8_t in1 = /*PIN*/41;
+        uint8_t in2 = /*PIN*/40;
+        uint8_t trigger = /*PIN*/19;
+    };
+
+    struct LevelGPR {
+        uint8_t enA = /*PIN*/36;
+        uint8_t in1 = /*PIN*/35;
+        uint8_t in2 = /*PIN*/34;
+        uint8_t trigger = /*PIN*/37;
     };
 
 }
