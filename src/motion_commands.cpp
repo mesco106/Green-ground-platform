@@ -1,4 +1,5 @@
-#include "arc_roboclaw/motion_commands.h"
+#include "motion_commands.h"
+#include "Arduino.h"
 
 void motionCommands::forward(RoboClaw m1, RoboClaw m2, int speed, char address){
     m1.ForwardM1(address, speed);
@@ -69,6 +70,15 @@ void motionCommands::differentialControl(RoboClaw m1, RoboClaw m2, int vl, int v
     } else if (vr == 0) { 
         m2.ForwardM1(address, 0);
         m2.ForwardM2(address, 0);
+    }
+}
+
+void motionCommands::steering(RoboClaw s, int v, char address){
+    Serial.println(v);
+    if (v > 0){
+        s.ForwardM1(address, v);
+    } else if (v < 0){
+        s.BackwardM1(address, v*(-1));
     }
 }
 

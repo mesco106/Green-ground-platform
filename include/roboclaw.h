@@ -9,10 +9,11 @@ namespace roboclaw{
     RoboClaw roboclaw3(&Serial5, 10000);
 
     void setup(){
-        roboclaw1.begin(38400);
-        roboclaw2.begin(38400);
-        roboclaw3.begin(38400);
+        roboclaw1.begin(115200);
+        roboclaw2.begin(115200);
+        roboclaw3.begin(115200);
     }
+    
 }
 
 #endif

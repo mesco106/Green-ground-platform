@@ -12,9 +12,9 @@
 #include "Arduino.h"
 #include "Gpio.h"
 #include "variables.h"
-#include "arc_roboclaw/roboclaw.h"
-#include "Serial/SerialPort.h"
-#include "arc_roboclaw/motion_commands.h"
+#include "roboclaw.h"
+#include "SerialPort.h"
+#include "motion_commands.h"
 
 namespace serial
 {
@@ -36,19 +36,19 @@ namespace serial
     void run(const String &message)
     {
         V::Roboclaw roboclaw;
+        led.setup();
         auto action = command(message);
         if (action == "S")
         {   
-            float v1 = argument(message, 1);
-            float v2 = argument(message, 2);
-            debug(v1);
-            debug(v2);
-            differentialDrive::rosexecution(v1,v2,roboclaw::roboclaw1, roboclaw::roboclaw2);
+            float v = argument(message, 1);
+            float w = argument(message, 2);
+            debug(v);
+            debug(w);
+            differentialDrive::rosexecution(v,w,roboclaw::roboclaw1, roboclaw::roboclaw2);
         }
         else if (action == "P") //SOLAR PANELS SERVICE
         {
-            if (argument(message, 1) == true) { led.on();}
-            else {led.off();}
+            linearActuator::RosActuateSolarPanels(argument(message, 1));
         }
         else if (action == "G") //GPR RISER
         {

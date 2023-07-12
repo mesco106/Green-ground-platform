@@ -8,6 +8,7 @@
 namespace linearActuator{
     void setup();
     void ActuateSolarPanels();
+    void RosActuateSolarPanels(bool node);
 }
 
 #endif

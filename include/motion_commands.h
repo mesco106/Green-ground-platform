@@ -10,6 +10,7 @@ namespace motionCommands{
     void right(RoboClaw m1, RoboClaw m2, int speed, char address);
     void individualControl(RoboClaw m1, RoboClaw m2, int v1, int v2, int v3, int v4, char address);
     void differentialControl(RoboClaw m1, RoboClaw m2, int vl, int vr, char address);
+    void steering(RoboClaw s, int v, char address);
     void stop(RoboClaw m);
 } 
 

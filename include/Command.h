@@ -1,6 +1,8 @@
 #ifndef __TOKEN_H__
 #define __TOKEN_H__
 
+#include "Arduino.h"
+
 template<typename T>
 void print(const T &value) {
   Serial.print(value);
