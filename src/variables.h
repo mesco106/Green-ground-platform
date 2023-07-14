@@ -16,8 +16,6 @@ namespace V {
     {
         const int address = 0x80;
         int position = 0;
-        const uint8_t rotaryEncoder = /*PIN*/28;
-        int readPosition;
     };
 
     struct RemoteControl

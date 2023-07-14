@@ -1,7 +1,7 @@
 #ifndef PORT_H
 #define PORT_H
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef DEBUG
 #define debug(x) port.send(x)
@@ -15,7 +15,6 @@
 #include "roboclaw.h"
 #include "SerialPort.h"
 #include "motion_commands.h"
-#include "pseudo_ackermman.h"
 
 namespace serial
 {
@@ -45,7 +44,7 @@ namespace serial
             float w = argument(message, 2);
             debug(v);
             debug(w);
-            steering::rosexecution(v,w,roboclaw::roboclaw3,roboclaw::roboclaw1, roboclaw::roboclaw2);
+            differentialDrive::rosexecution(v,w,roboclaw::roboclaw1, roboclaw::roboclaw2);
         }
         else if (action == "P") //SOLAR PANELS SERVICE
         {

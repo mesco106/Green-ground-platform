@@ -9,7 +9,6 @@ namespace steering {
 
     void setup(RoboClaw steering);
     void execution(RoboClaw steering, RoboClaw left, RoboClaw right);
-    void rosexecution(float x, float y, RoboClaw steering, RoboClaw left, RoboClaw right);
 }
 
 #endif 
