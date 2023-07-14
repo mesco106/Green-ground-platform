@@ -26,30 +26,23 @@ void setup()
     
     pinMode(remoteGPIO.auxTrigger1, INPUT);
 
-    // int state = 0;
+     int state = 0;
     //roboclaw::roboclaw3.SpeedDistanceM1(0x80,1000,0,0);
     
     while (1)
     {
-        //roboclaw::roboclaw3.SpeedM1(0x80, 0);
-            // roboclaw::roboclaw3.SpeedDistanceM1(0x80,1000,0,0);
-            // break;
-    
-        
-        steering::execution(roboclaw::roboclaw3, roboclaw::roboclaw1, roboclaw::roboclaw2);
-
-
-        // state = digitalRead(remoteGPIO.auxTrigger1);
-        // if (state == 0)
-        // {
-        //     linearActuator::ActuateSolarPanels();
-        //     remoteControl::execution(roboclaw::roboclaw1, roboclaw::roboclaw2);
-        //     gprRiser::ActuateGPRRiser();
-        // }
-        // else
-        // {
-        //     serial::update();
-        // }
+        state = digitalRead(remoteGPIO.auxTrigger1);
+        if (state == 0)
+        {
+            linearActuator::ActuateSolarPanels();
+            steering::execution(roboclaw::roboclaw3, roboclaw::roboclaw1, roboclaw::roboclaw2);
+            //remoteControl::execution(roboclaw::roboclaw1, roboclaw::roboclaw2);
+            gprRiser::ActuateGPRRiser();
+        }
+        else
+        {
+            serial::update();
+        }
     }
 }
 

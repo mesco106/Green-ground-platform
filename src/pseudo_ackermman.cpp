@@ -1,10 +1,13 @@
 #include "pseudo_ackermman.h"
+
 int pass = 0;
 
 void steering::setup(RoboClaw steering)
 {
     V::Roboclaw Steering;
     steering.ResetEncoders(Steering.address);
+
+    pinMode(Steering.rotaryEncoder ,INPUT);
 }
 
 void steering::execution(RoboClaw steering, RoboClaw left, RoboClaw right)
@@ -19,8 +22,8 @@ void steering::execution(RoboClaw steering, RoboClaw left, RoboClaw right)
 
     remote.chan_1_read = pulseIn(remote.channel1, HIGH, 30000);
     remote.chan_2_read = pulseIn(remote.channel2, HIGH, 30000);
-
-    // Serial.print(remote.chan_1_read);
+    Steering.readPosition = pulseIn(Steering.rotaryEncoder, HIGH, 30000);
+    Serial.println(Steering.readPosition);
     // Serial.print("  |  ");
     // Serial.println(remote.chan_2_read);
 
@@ -99,17 +102,52 @@ void steering::execution(RoboClaw steering, RoboClaw left, RoboClaw right)
                 steering.SpeedDistanceM1(0x80,0,0,0);
                 break;
         }
-        // //     Serial.println(*flag1);
-        // //     remote.chan_1_read = pulseIn(remote.channel1, HIGH, 30000);
-        // //     if ((remote.chan_1_read <= 1450) || (remote.chan_1_read >= 1550))
-        // //         break;
-        // //     break;
-
-        
-        // steering.BackwardM1(roboclaw.address, set.motor_stop);
-        // steering.SpeedM1(Steering.address, 1000);
-        //  steering.ForwardBackwardM1(roboclaw.address, 64);
     }
 
+
+}
+
+void steering::rosexecution(float x, float y, RoboClaw steering, RoboClaw left, RoboClaw right){
+    V::Roboclaw Steering;
+    V::Set set;
+    int speedLimit = 10;
+    Serial.print(x);
+    Serial.print("  |  ");
+    Serial.println(y);
+
+
+    if (x > 0.1) {
+        set.motor_1_spd = map(x, 0, 1.5, 0, 126);
+        set.motor_2_spd = map(y, 1.0, -1.0, -speedLimit, speedLimit);
+        motionCommands::steering(steering, set.motor_2_spd, Steering.address);
+        motionCommands::forward(left, right, set.motor_1_spd, Steering.address);
+        pass = 0;
+
+    } else if (x < -0.1){
+        set.motor_1_spd = map(x, 0, -1.5, 0, 126);
+        set.motor_2_spd = map(y, 1.0, -1.0, -speedLimit, speedLimit);
+        motionCommands::steering(steering, set.motor_2_spd, Steering.address);
+        motionCommands::backward(left, right, set.motor_1_spd, Steering.address);
+        pass = 0;
+    } else if (y > 0.1){
+        set.motor_2_spd = map(y, 1.0, -1.0, -speedLimit, speedLimit);
+        motionCommands::steering(steering, set.motor_2_spd, Steering.address);
+        pass = 0;
+    } else if (y < -0.1){
+        set.motor_2_spd = map(y, 1.0, -1.0, -speedLimit, speedLimit);
+        motionCommands::steering(steering, set.motor_2_spd, Steering.address);
+        pass = 0;
+    } else if (y >= -0.1 && y <= 0.1) {
+        pass++;
+        steering.SpeedM1(Steering.address, 0);
+        motionCommands::forward(left, right, set.motor_stop, Steering.address);
+
+        while (pass == 1) {
+            steering.SpeedDistanceM1(0x80,0,0,0);
+            break;
+        }
+    }
+    // motionCommands::forwardbackward(left, right, V, Steering.address);
+    // motionCommands::steering(steering, W, Steering.address);
 
 }

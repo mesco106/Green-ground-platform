@@ -2,17 +2,16 @@
 #include "Arduino.h"
 
 void motionCommands::forward(RoboClaw m1, RoboClaw m2, int speed, char address){
-    m1.ForwardM1(address, speed);
-    m1.ForwardM2(address, speed);
-    m2.ForwardM1(address, speed);
-    m2.ForwardM2(address, speed);
+    m1.SpeedM1M2(address, 90000, 90000);
+    //m1.ForwardM2(address, speed);
+    m2.SpeedM1M2(address, 90000, 90000);
+    //m2.ForwardM2(address, speed);
 }
 
 void motionCommands::backward(RoboClaw m1, RoboClaw m2, int speed, char address){
-    m1.BackwardM1(address, speed);
-    m1.BackwardM2(address, speed);
-    m2.BackwardM1(address, speed);
-    m2.BackwardM2(address, speed);
+    m1.SpeedM1M2(address, -90000, -90000);
+    //m1.ForwardM2(address, speed);
+    m2.SpeedM1M2(address, -90000, -90000);
 }
 
 void motionCommands::right(RoboClaw m1, RoboClaw m2, int speed, char address){
@@ -74,11 +73,20 @@ void motionCommands::differentialControl(RoboClaw m1, RoboClaw m2, int vl, int v
 }
 
 void motionCommands::steering(RoboClaw s, int v, char address){
-    Serial.println(v);
     if (v > 0){
         s.ForwardM1(address, v);
     } else if (v < 0){
         s.BackwardM1(address, v*(-1));
+    }
+}
+
+void motionCommands::forwardbackward(RoboClaw l, RoboClaw r, float v, char address) {
+    if (v > 0){
+        l.ForwardM1(address, v);
+        r.ForwardM1(address, v);
+    } else if (v < 0){
+        l.BackwardM1(address, v*(-1));
+        r.BackwardM1(address, v*(-1));
     }
 }
 
